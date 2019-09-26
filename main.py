@@ -24,6 +24,7 @@ while restart == "y":
     custom_block_hash = custom_header_loads['result']['block_header']['hash']
     custom_block_reward = custom_header_loads['result']['block_header']['reward']
     custom_block_tx_count = custom_header_loads['result']['block_header']['num_txes']
+    custom_block_hashrate = round(custom_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
 
     print("")
     print("Block " + str(custom_block_height) + " Info")
@@ -32,5 +33,7 @@ while restart == "y":
     print("Hash: " + str(custom_block_hash))
     print("Reward: " + str(custom_block_reward) + " atomic units")
     print("Transaction count: " + str(custom_block_tx_count))
+    print("Net Hashrate: " + str(custom_block_hashrate) + "kh/s")
+    print("")
 
     restart = input("Do you want to check another block? y/n: ")
