@@ -1,7 +1,7 @@
 # CLI BLockExplorer for Oscillate.
 Does what it says. Allows you to view information for the block specified.
 
-##Instructions
+## Instructions
 First, input the IP address for the daemon. 
 
 Second, type the height of the block you want to view.
