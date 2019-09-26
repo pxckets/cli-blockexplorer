@@ -13,7 +13,7 @@ oscillated = TurtleCoind(rpc_host, rpc_port)
 
 restart = "y"
 while restart == "y":
-    custom_height = input("What block do you want to view the info of?: ")
+    custom_height = input("Enter Block Height: ")
     custom_header = oscillated.get_block_header_by_height(int(custom_height))
 
     custom_header_dump = json.dumps(custom_header)
@@ -27,7 +27,7 @@ while restart == "y":
     custom_block_hashrate = round(custom_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
 
     print("")
-    print("         Block " + str(custom_block_height) + " Info")
+    print("                                Block " + str(custom_block_height) + " Info")
     print("")
     print("[-------------------------------------------------------------------------------]")
     print("         Size: " + str(custom_block_size) + "kb")
