@@ -13,10 +13,16 @@ while True:
 
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
+menu = "0"
+
+print("-------Options------")
+print("1. Block Explorer")
+print("2. View current block statistics")
+
+menu = input("Enter selection: ")
 
 #blockexplorer
-restart = "y"
-while restart == "y":
+while menu == "1":
 
     # request blockheight from user
     custom_height = input("Enter Block Height: ")
@@ -39,7 +45,7 @@ while restart == "y":
     timestamp = custom_block_timestamp
     block_date = datetime.fromtimestamp(timestamp)
 
-    # GUI
+    # Block Explorer GUI, but its CLI
     print("")
     print("                         Block " + str(custom_block_height) + " Info")
     print("")
@@ -59,7 +65,49 @@ while restart == "y":
     print("")
 
     # yeet or skeet
-    restart = input("Do you want to check another block? y/n: ")
+    menu = input("Press 1 to check another block, 0 to go back to the menu: ")
+
+#current block stuffs
+while menu == "2":
+    
+    #loop this shit
+    while True:
+        #snag that block
+        last_block = oscillated.get_last_block_header()
+
+        #load da JSON stuff
+        last_block_dump = json.dumps(last_block)
+        last_block_loads = json.loads(last_block_dump)
+
+        #then load this stuff
+        last_block_height = last_block_loads['result']['block_header']['height']
+        last_block_size = last_block_loads['result']['block_header']['block_size']
+        last_block_hash = last_block_loads['result']['block_header']['hash']
+        last_block_reward = last_block_loads['result']['block_header']['reward']
+        last_block_tx_count = last_block_loads['result']['block_header']['num_txes']
+        last_block_hashrate = round(last_block_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
+        last_block_timestamp = last_block_loads['result']['block_header']['timestamp']
+
+        #this this thing again
+        print("")
+        print("                         Latest Block Data (" + str(last_block_height) + ") Info")
+        print("                         Data refreshes every 60 seconds")
+        print("")
+        print("[-------------------------------------------------------------------------------]")
+        print("         Size: " + str(last_block_size) + "kb")
+        print("[-------------------------------------------------------------------------------]")
+        print("         Hash: " + str(last_block_hash))
+        print("[-------------------------------------------------------------------------------]")
+        print("         Reward: " + str(last_block_reward) + " atomic units")
+        print("[-------------------------------------------------------------------------------]")
+        print("         Transaction count: " + str(last_block_tx_count))
+        print("[-------------------------------------------------------------------------------]")
+        print("         Net Hashrate: " + str(last_block_hashrate) + "kh/s")
+        print("[-------------------------------------------------------------------------------]")
+        print("")
+
+        #chill for a minute
+        time.sleep(60)
 print('')
 print("https://github.com/pxckets/cli-blockexplorer")
 print("https://discord.gg/RsQDrhJ")
