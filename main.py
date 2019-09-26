@@ -1,4 +1,5 @@
 from turtlecoin import TurtleCoind
+from datetime import datetime
 import json
 
 # Request node IP from user
@@ -31,6 +32,11 @@ while restart == "y":
     custom_block_reward = custom_header_loads['result']['block_header']['reward']
     custom_block_tx_count = custom_header_loads['result']['block_header']['num_txes']
     custom_block_hashrate = round(custom_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
+    custom_block_timestamp = custom_header_loads['result']['block_header']['timestamp']
+
+    # convert timestamp to UTC
+    timestamp = custom_block_timestamp
+    block_date = datetime.fromtimestamp(timestamp)
 
     # GUI
     print("")
@@ -46,6 +52,8 @@ while restart == "y":
     print("         Transaction count: " + str(custom_block_tx_count))
     print("[-------------------------------------------------------------------------------]")
     print("         Net Hashrate: " + str(custom_block_hashrate) + "kh/s")
+    print("[-------------------------------------------------------------------------------]")
+    print("         Date: " + str(block_date))
     print("[-------------------------------------------------------------------------------]")
     print("")
 
