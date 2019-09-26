@@ -6,7 +6,7 @@ import json
 # Request node IP from user
 while True:
     try:
-        rpc_host = input('Daemon IP: ')
+        rpc_host = input('\033[1;34;40m Daemon IP: ')
         break
     except ConnectionError:
          print("Connection error to node. Please try again.")
@@ -41,7 +41,7 @@ while restart == "y":
 
     # GUI
     print("")
-    print("                                Block " + str(custom_block_height) + " Info")
+    print("                         Block " + str(custom_block_height) + " Info")
     print("")
     print("[-------------------------------------------------------------------------------]")
     print("         Size: " + str(custom_block_size) + "kb")
