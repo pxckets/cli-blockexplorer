@@ -1,4 +1,5 @@
 from turtlecoin import TurtleCoind
+import time
 from datetime import datetime
 import json
 
@@ -59,3 +60,7 @@ while restart == "y":
 
     # yeet or skeet
     restart = input("Do you want to check another block? y/n: ")
+print('')
+print("https://github.com/pxckets/cli-blockexplorer")
+print("https://discord.gg/RsQDrhJ")
+time.sleep(10)
