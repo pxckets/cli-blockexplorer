@@ -1,9 +1,16 @@
 from turtlecoin import TurtleCoind
 import json
 
-rpc_host = 'localhost'
+while True:
+    try:
+        rpc_host = input('Daemon IP: ')
+        break
+    except ConnectionError:
+         print("Connection error to node. Please try again.")
+
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
+
 restart = "y"
 while restart == "y":
     custom_height = input("What block do you want to view the info of?: ")
@@ -27,7 +34,3 @@ while restart == "y":
     print("Transaction count: " + str(custom_block_tx_count))
 
     restart = input("Do you want to check another block? y/n: ")
-    
-
-    
-
