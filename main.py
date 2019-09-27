@@ -17,9 +17,13 @@ menu = "0"
 
 #main loop
 while menu == "0":
+    print("Copyright (c) 2019, The Oscillate devlopers")
+    print("")
     print("-------Options------")
-    print("1. Block Explorer")
-    print("2. View current block statistics")
+    print("")
+    print("(1). Block Explorer")
+    print("(2). View live current block statistics")
+    print("(3). Exit")
 
     menu = input("Enter selection: ")
 
@@ -71,15 +75,18 @@ while menu == "0":
 
     #current block stuffs
     while menu == "2":
-        
+
+        #snag that user input
+        update_time = input("How often do you want to update the info? In seconds: ")
+
         #loop this shit
         while True:
-
-            #snag that user input
-            update_time = input("How often do you want to update the info? In seconds: ")
-
             #snag that block
-            last_block = oscillated.get_last_block_header()
+            try:
+                last_block = oscillated.get_last_block_header()
+            except(ConnectionError):
+                print("Error connecting to daemon!")
+                menu = 0
 
             #load da JSON stuff
             last_block_dump = json.dumps(last_block)
@@ -114,9 +121,12 @@ while menu == "0":
 
             #chill for a minute
             time.sleep(int(update_time))
-#later gator
-print('')
-print("https://github.com/pxckets/cli-blockexplorer")
-print("https://discord.gg/RsQDrhJ")
-#time for user to copy links before closing window
-time.sleep(10)
+
+    while menu == "3":
+        print("")
+        print("https://github.com/pxckets/cli-blockexplorer")
+        print("Have a good day :)")
+        print("Window will automatically close in 5 seconds...")
+        time.sleep(5)
+        quit()
+menu = 0
