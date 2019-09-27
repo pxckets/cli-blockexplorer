@@ -12,11 +12,9 @@ def clear():
     # for windows 
     if name == 'nt': 
         _ = system('cls') 
-  
     # for mac and linux(here, os.name is 'posix') 
     else: 
         _ = system('clear') 
-
 
 # Request node IP from user
 while True:
@@ -99,7 +97,6 @@ while menu == "0":
             print("Update time cannot be zero, setting to 1.")
             update_time = "1"
     
-
         #loop this shit
         while True:
             #snag that block
@@ -140,7 +137,6 @@ while menu == "0":
             print("[-------------------------------------------------------------------------------]")
             print("")
             
-
             #chill for a minute
             time.sleep(int(update_time))
             
