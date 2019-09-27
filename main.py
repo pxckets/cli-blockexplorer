@@ -6,7 +6,7 @@ import json
 # Request node IP from user
 while True:
     try:
-        rpc_host = input('\033[1;34;40m Daemon IP: ')
+        rpc_host = input('Daemon IP: ')
         break
     except ConnectionError:
          print("Connection error to node. Please try again.")
@@ -97,7 +97,7 @@ while menu == "0":
             #this this thing again
             print("")
             print("                         Latest Block Data (" + str(last_block_height) + ") Info")
-            print("                         Data refreshes every 60 seconds")
+            print("                         Data refreshes every " + update_time + " seconds")
             print("")
             print("[-------------------------------------------------------------------------------]")
             print("         Size: " + str(last_block_size) + "kb")
@@ -113,7 +113,7 @@ while menu == "0":
             print("")
 
             #chill for a minute
-            time.sleep(update_time)
+            time.sleep(int(update_time))
 #later gator
 print('')
 print("https://github.com/pxckets/cli-blockexplorer")
