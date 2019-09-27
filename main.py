@@ -79,6 +79,12 @@ while menu == "0":
         #snag that user input
         update_time = input("How often do you want to update the info? In seconds: ")
 
+        #so the user doesnt crash their PC
+        if update_time == "0":
+            print("Update time cannot be zero, setting to 1.")
+            update_time = "1"
+    
+
         #loop this shit
         while True:
             #snag that block
