@@ -2,6 +2,21 @@ from turtlecoin import TurtleCoind
 import time
 from datetime import datetime
 import json
+import sys
+from os import system, name  
+from time import sleep 
+  
+#how2geek
+def clear(): 
+  
+    # for windows 
+    if name == 'nt': 
+        _ = system('cls') 
+  
+    # for mac and linux(here, os.name is 'posix') 
+    else: 
+        _ = system('clear') 
+
 
 # Request node IP from user
 while True:
@@ -124,9 +139,12 @@ while menu == "0":
             print("         Net Hashrate: " + str(last_block_hashrate) + "kh/s")
             print("[-------------------------------------------------------------------------------]")
             print("")
+            
 
             #chill for a minute
             time.sleep(int(update_time))
+            
+            clear()
 
     while menu == "3":
         print("")
