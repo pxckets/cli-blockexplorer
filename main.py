@@ -61,7 +61,7 @@ while menu == "0":
         clear()
 
         # request blockheight from user
-        custom_height = input("Enter " + str(coin_ticker) + " Block Height: ")
+        custom_height = input("Enter {} Block Height: ".format(coin_ticker))
         custom_header = oscillated.get_block_header_by_height(int(custom_height))
 
         # load our Json
@@ -85,20 +85,20 @@ while menu == "0":
 
         # Block Explorer GUI, but its CLI
         print("")
-        print("                        " + str(coin_ticker) + " Block " + str(custom_block_height) + " Info")
+        print("                        {} Block {} Info".format(coin_ticker, custom_block_height))
         print("_________________________________________________________________________________")
         print("[-------------------------------------------------------------------------------]")
-        print("[         Size: " + str(custom_block_size) + "kb")
+        print("[         Size: {}kb".format(custom_block_size))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Hash: " + str(custom_block_hash))
+        print("[         Hash: {}".format(custom_block_hash))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Reward: " + str(custom_block_reward) + " atomic units")
+        print("[         Reward: {} atomic units".format(custom_block_reward))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Transaction count: " + str(custom_block_tx_count))
+        print("[         Transaction count: {}".format(custom_block_tx_count))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Net Hashrate: " + str(custom_block_hashrate) + "kh/s")
+        print("[         Net Hashrate: {} kH/s".format(custom_block_hashrate))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Date: " + str(block_date))
+        print("[         Date: {}".format(block_date))
         print("[-------------------------------------------------------------------------------]")
         print("_________________________________________________________________________________")
 
@@ -146,19 +146,19 @@ while menu == "0":
 
             #yeah. this looks cool
             print("")
-            print("                         Latest " + str(coin_ticker) + " Block Data (" + str(last_block_height) + ") Info")
-            print("                           Data refreshes every " + update_time + " seconds")
+            print("                         Latest {} Block Data ({})) Info".format(coin_ticker, last_block_height))
+            print("                           Data refreshes every {} seconds".format(update_time))
             print("_________________________________________________________________________________")
             print("[-------------------------------------------------------------------------------]")
-            print("[         Size: " + str(last_block_size) + " bytes")
+            print("[         Size: {} bytes".format(last_block_size))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Hash: " + str(last_block_hash))
+            print("[         Hash: {}".format(last_block_hash))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Reward: " + str(last_block_reward) + " atomic units")
+            print("[         Reward: {} atomic units".format(last_block_reward))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Transaction count: " + str(last_block_tx_count))
+            print("[         Transaction count: {}".format(last_block_tx_count))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Net Hashrate: " + str(last_block_hashrate) + "kh/s")
+            print("[         Net Hashrate: {} kH/s".format(last_block_hashrate))
             print("[-------------------------------------------------------------------------------]")
             print("_________________________________________________________________________________")
             
@@ -170,7 +170,7 @@ while menu == "0":
     while menu == "3":
 
         #user input
-         txn_hash = input("Enter " + str(coin_ticker) + " TXN hash: ")
+         txn_hash = input("Enter {} TXN hash: ".format(coin_ticker))
 
          # send that data to the daemon, and get the response back
          txn_hash_data = oscillated.get_transaction(txn_hash)
@@ -190,11 +190,11 @@ while menu == "0":
          print("")
          print("--------Transaction Information----------")
          print("")
-         print("Amount: " + str(txn_amount))
-         print("Fee: " + str(txn_fee))
-         print("Block: " + str(txn_block))
-         print("Size: " + str(txn_size) + " bytes")
-         print("Size Percentage of block: " + str(txn_size_percentage) + "%")
+         print("Amount: {}".format(txn_amount))
+         print("Fee: {}".format(txn_fee))
+         print("Block: {}".format(txn_block))
+         print("Size: {} bytes".format(txn_size))
+         print("Size Percentage of block: {}%".format(txn_size_percentage))
          print("")
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
