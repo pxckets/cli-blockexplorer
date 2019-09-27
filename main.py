@@ -5,16 +5,8 @@ import json
 import sys
 from os import system, name  
 from time import sleep 
-  
 
-def clear(): 
-  
-    # for windows 
-    if name == 'nt': 
-        _ = system('cls') 
-    # for mac and linux(here, os.name is 'posix') 
-    else: 
-        _ = system('clear') 
+default_node_ip = "159.203.95.84"
 
 #ask user if they want to use a custom node
 user_node_selection = input("Would you like to use a custom node? y/n: ")
@@ -29,31 +21,47 @@ if user_node_selection == "y":
             print("Connection error to node. Please try again.")
 
 else:
-    rpc_host = "159.203.95.84" #Official pool IP :)
+    rpc_host = str(default_node_ip) 
 
- 
+
+#
+# COIN CONFIG
+#  
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
+coin_ticker = "OSL"
 menu = "0"
+
+#The clear function used in the latest block feature
+def clear(): 
+  
+    if name == 'nt': 
+        _ = system('cls') 
+    else: 
+        _ = system('clear') 
+
 
 #main loop
 while menu == "0":
     print("Copyright (c) 2019, The Oscillate devlopers")
     print("")
-    print("-------Options------")
-    print("")
+    print("|----------------Options--------------|")
+    print("_______________________________________")
     print("(1). Block Explorer")
     print("(2). View live current block statistics")
     print("(3). View transaction data")
     print("(4). Exit")
+    print("_______________________________________")
 
     menu = input("Enter selection: ")
 
     #blockexplorer
     while menu == "1":
 
+        clear()
+
         # request blockheight from user
-        custom_height = input("Enter Block Height: ")
+        custom_height = input("Enter " + str(coin_ticker) + " Block Height: ")
         custom_header = oscillated.get_block_header_by_height(int(custom_height))
 
         # load our Json
@@ -73,32 +81,38 @@ while menu == "0":
         timestamp = custom_block_timestamp
         block_date = datetime.fromtimestamp(timestamp)
 
+        clear()
+
         # Block Explorer GUI, but its CLI
         print("")
-        print("                         Block " + str(custom_block_height) + " Info")
-        print("")
+        print("                        " + str(coin_ticker) + " Block " + str(custom_block_height) + " Info")
+        print("_________________________________________________________________________________")
         print("[-------------------------------------------------------------------------------]")
-        print("         Size: " + str(custom_block_size) + "kb")
+        print("[         Size: " + str(custom_block_size) + "kb")
         print("[-------------------------------------------------------------------------------]")
-        print("         Hash: " + str(custom_block_hash))
+        print("[         Hash: " + str(custom_block_hash))
         print("[-------------------------------------------------------------------------------]")
-        print("         Reward: " + str(custom_block_reward) + " atomic units")
+        print("[         Reward: " + str(custom_block_reward) + " atomic units")
         print("[-------------------------------------------------------------------------------]")
-        print("         Transaction count: " + str(custom_block_tx_count))
+        print("[         Transaction count: " + str(custom_block_tx_count))
         print("[-------------------------------------------------------------------------------]")
-        print("         Net Hashrate: " + str(custom_block_hashrate) + "kh/s")
+        print("[         Net Hashrate: " + str(custom_block_hashrate) + "kh/s")
         print("[-------------------------------------------------------------------------------]")
-        print("         Date: " + str(block_date))
+        print("[         Date: " + str(block_date))
         print("[-------------------------------------------------------------------------------]")
-        print("")
+        print("_________________________________________________________________________________")
 
         # yeet or skeet
         menu = input("Press 1 to check another block, 0 to go back to the menu: ")
 
-    #current block stuffs
+        clear()
+
+    #current block information
     while menu == "2":
 
-        #snag that user input
+        clear()
+
+        #Request time interval
         update_time = input("How often do you want to update the info? In seconds: ")
 
         #so the user doesnt crash their PC
@@ -115,7 +129,7 @@ while menu == "0":
                 print("Error connecting to daemon!")
                 menu = 0
 
-            #load da JSON stuff
+            #load that JSON stuff
             last_block_dump = json.dumps(last_block)
             last_block_loads = json.loads(last_block_dump)
 
@@ -128,25 +142,27 @@ while menu == "0":
             last_block_hashrate = round(last_block_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
             last_block_timestamp = last_block_loads['result']['block_header']['timestamp']
 
-            #this this thing again
+            clear()
+
+            #yeah. this looks cool
             print("")
-            print("                         Latest Block Data (" + str(last_block_height) + ") Info")
-            print("                         Data refreshes every " + update_time + " seconds")
-            print("")
+            print("                         Latest " + str(coin_ticker) + " Block Data (" + str(last_block_height) + ") Info")
+            print("                           Data refreshes every " + update_time + " seconds")
+            print("_________________________________________________________________________________")
             print("[-------------------------------------------------------------------------------]")
-            print("         Size: " + str(last_block_size) + "kb")
+            print("[         Size: " + str(last_block_size) + " bytes")
             print("[-------------------------------------------------------------------------------]")
-            print("         Hash: " + str(last_block_hash))
+            print("[         Hash: " + str(last_block_hash))
             print("[-------------------------------------------------------------------------------]")
-            print("         Reward: " + str(last_block_reward) + " atomic units")
+            print("[         Reward: " + str(last_block_reward) + " atomic units")
             print("[-------------------------------------------------------------------------------]")
-            print("         Transaction count: " + str(last_block_tx_count))
+            print("[         Transaction count: " + str(last_block_tx_count))
             print("[-------------------------------------------------------------------------------]")
-            print("         Net Hashrate: " + str(last_block_hashrate) + "kh/s")
+            print("[         Net Hashrate: " + str(last_block_hashrate) + "kh/s")
             print("[-------------------------------------------------------------------------------]")
-            print("")
+            print("_________________________________________________________________________________")
             
-            #chill for a minute
+            #chill for however long the user said
             time.sleep(int(update_time))
             
             clear()
@@ -154,7 +170,8 @@ while menu == "0":
     while menu == "3":
 
         #user input
-         txn_hash = input("Enter TXN hash: ")
+         txn_hash = input("Enter " + str(coin_ticker) + " TXN hash: ")
+
          # send that data to the daemon, and get the response back
          txn_hash_data = oscillated.get_transaction(txn_hash)
 
@@ -169,6 +186,7 @@ while menu == "0":
          txn_size = txn_hash_loads["result"]["txDetails"]["size"]
          txn_size_percentage = round(100 / txn_hash_loads["result"]["block"]["cumul_size"] * txn_size)
 
+        #TXN info gui but cli, you feel?
          print("")
          print("--------Transaction Information----------")
          print("")
@@ -180,7 +198,8 @@ while menu == "0":
          print("")
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
-
+         clear()
+    # wow atleast recommend this to a friend.
     while menu == "4":
         print("")
         print("https://github.com/pxckets/cli-blockexplorer")
