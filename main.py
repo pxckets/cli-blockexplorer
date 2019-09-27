@@ -6,7 +6,7 @@ import sys
 from os import system, name  
 from time import sleep 
   
-#how2geek
+
 def clear(): 
   
     # for windows 
@@ -16,14 +16,22 @@ def clear():
     else: 
         _ = system('clear') 
 
-# Request node IP from user
-while True:
-    try:
-        rpc_host = input('Daemon IP: ')
-        break
-    except ConnectionError:
-         print("Connection error to node. Please try again.")
+#ask user if they want to use a custom node
+user_node_selection = input("Would you like to use a custom node? y/n: ")
+if user_node_selection == "y":
 
+    # Request node IP from user
+    while True:
+        try:
+            rpc_host = input('Daemon IP: ')
+            break
+        except ConnectionError:
+            print("Connection error to node. Please try again.")
+
+else:
+    rpc_host = "159.203.95.84" #Official pool IP :)
+
+ 
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 menu = "0"
@@ -36,7 +44,8 @@ while menu == "0":
     print("")
     print("(1). Block Explorer")
     print("(2). View live current block statistics")
-    print("(3). Exit")
+    print("(3). View transaction data")
+    print("(4). Exit")
 
     menu = input("Enter selection: ")
 
@@ -143,6 +152,36 @@ while menu == "0":
             clear()
 
     while menu == "3":
+
+        #user input
+         txn_hash = input("Enter TXN hash: ")
+         # send that data to the daemon, and get the response back
+         txn_hash_data = oscillated.get_transaction(txn_hash)
+
+        #JSON load
+         txn_hash_dump = json.dumps(txn_hash_data)
+         txn_hash_loads = json.loads(txn_hash_dump)
+
+        #Information harvest
+         txn_amount = txn_hash_loads["result"]["txDetails"]["amount_out"]
+         txn_fee = txn_hash_loads["result"]["txDetails"]["fee"]
+         txn_block = txn_hash_loads["result"]["block"]["height"]
+         txn_size = txn_hash_loads["result"]["txDetails"]["size"]
+         txn_size_percentage = round(100 / txn_hash_loads["result"]["block"]["cumul_size"] * txn_size)
+
+         print("")
+         print("--------Transaction Information----------")
+         print("")
+         print("Amount: " + str(txn_amount))
+         print("Fee: " + str(txn_fee))
+         print("Block: " + str(txn_block))
+         print("Size: " + str(txn_size) + " bytes")
+         print("Size Percentage of block: " + str(txn_size_percentage) + "%")
+         print("")
+
+         menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
+
+    while menu == "4":
         print("")
         print("https://github.com/pxckets/cli-blockexplorer")
         print("Have a good day :)")
