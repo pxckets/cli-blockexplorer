@@ -5,6 +5,7 @@ from datetime import datetime
 import json
 import sys
 from os import system, name  
+import urllib.request
 
 default_node_ip = "159.203.95.84"
 
@@ -30,7 +31,7 @@ else:
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 coin_ticker = "OSL"
-version = "1.0.1"
+version = "1.1.1"
 menu = "0"
 
 #The clear function used in the latest block feature
@@ -54,7 +55,8 @@ while menu == "0":
     print("|(1). Block Explorer                    |")
     print("|(2). View live current net statistics  |")
     print("|(3). View transaction data             |")
-    print("|(4). Exit                              |")
+    print("|(4). View Pool Information             |")
+    print("|(5). Exit                              |")
     print("|_______________________________________|")
 
     menu = input("Enter selection: ")
@@ -77,7 +79,7 @@ while menu == "0":
             block_header_loads = json.loads(block_header_dump)
         else:
              #request hash from user
-             user_block_hash = input("Enter Block hash: ")
+             user_block_hash = input("Block height to view: ")
              user_block_hash_data = oscillated.get_block_header_by_hash(str(user_block_hash))
 
              # load our Json for bock hash input
@@ -228,8 +230,78 @@ while menu == "0":
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
          clear()
 
-    # wow atleast recommend this to a friend.
     while menu == "4":
+
+        print("Loading pool data.... please wait...")
+
+        pool1 = "http://159.203.95.84:8245/stats" #official pool (pxckets)
+        pool2 = "http://74.130.176.161:8245/stats" #DuckTownCrypto (Dr. Greenthumb)
+        pool3 = "http://osc.line-pool.ru/stats" #Line Pool (mawr)
+        pool4 = "http://whonnock.spookypool.nl:8217/stats" #SpookyPool (MunchieHigh420)
+
+        pool1_response = urllib.request.urlopen(pool1)
+        pool2_response = urllib.request.urlopen(pool2)
+        pool3_response = urllib.request.urlopen(pool3)
+        pool4_response = urllib.request.urlopen(pool4)
+
+        pool1_data = json.loads(pool1_response.read())
+        pool2_data = json.loads(pool2_response.read())
+        pool3_data = json.loads(pool3_response.read())
+        pool4_data = json.loads(pool4_response.read())
+
+        pool1_hashrate = pool1_data['pool']['hashrate'] / 1000
+        pool1_miners = pool1_data['pool']['miners']
+        pool1_fee = pool1_data['config']['fee']
+
+        pool2_hashrate = pool2_data['pool']['hashrate'] / 1000
+        pool2_miners = pool2_data['pool']['miners']
+        pool2_fee = pool2_data['config']['fee']
+
+        pool3_hashrate = pool3_data['pool']['hashrate'] / 1000
+        pool3_miners = pool3_data['pool']['miners']
+        pool3_fee = pool3_data['config']['fee']
+
+        pool4_hashrate = pool4_data['pool']['hashrate'] / 1000
+        pool4_miners = pool4_data['pool']['miners']
+        pool4_fee = pool4_data['config']['fee']
+
+        clear()
+
+        print("")
+        print("----Official Pool----")
+        print("Hash rate: " + str(pool1_hashrate) + "kh/s")
+        print("Miners: " + str(pool1_miners))
+        print("Fee: " + str(pool1_fee) + "%")
+        print("_______________________")
+        print("")
+        print("")
+        print("----DuckTownMining---")
+        print("Hash rate: " + str(pool2_hashrate) + "kh/s")
+        print("Miners: " + str(pool2_miners))
+        print("Fee: " + str(pool2_fee) + "%")
+        print("_______________________")
+        print("")
+        print("")
+        print("-------Line Pool-------")
+        print("Hash rate: " + str(pool3_hashrate) + "kh/s")
+        print("Miners: " + str(pool3_miners))
+        print("Fee: " + str(pool3_fee) + "%")
+        print("_______________________")
+        print("")
+        print("")
+        print("------Spooky Pool------")
+        print("Hash rate: " + str(pool4_hashrate) + "kh/s")
+        print("Miners: " + str(pool4_miners))
+        print("Fee: " + str(pool4_fee) + "%")
+        print("_______________________")
+        print("")
+
+        menu = input("Press 0 to go back to the main menu.")
+
+        clear()
+        
+    # wow atleast recommend this to a friend.
+    while menu == "5":
         print("")
         print("https://github.com/pxckets/cli-blockexplorer")
         print("Have a good day :)")
