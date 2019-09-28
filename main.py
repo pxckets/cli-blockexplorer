@@ -1,10 +1,10 @@
 from turtlecoin import TurtleCoind
 import time
+from time import sleep
 from datetime import datetime
 import json
 import sys
 from os import system, name  
-from time import sleep 
 
 default_node_ip = "159.203.95.84"
 
@@ -41,17 +41,20 @@ def clear():
         _ = system('clear') 
 
 
-#main loop
+#main menu loop
 while menu == "0":
     print("Copyright (c) 2019, The Oscillate devlopers")
     print("")
-    print("|----------------Options--------------|")
-    print("_______________________________________")
-    print("(1). Block Explorer")
-    print("(2). View live current block statistics")
-    print("(3). View transaction data")
-    print("(4). Exit")
-    print("_______________________________________")
+    print(str(coin_ticker) + " Block Explorer")
+    print("")
+    print("|----------------Options----------------|")
+    print("|_______________________________________|")
+    print("|                                       |")
+    print("|(1). Block Explorer                    |")
+    print("|(2). View live current net statistics  |")
+    print("|(3). View transaction data             |")
+    print("|(4). Exit                              |")
+    print("|_______________________________________|")
 
     menu = input("Enter selection: ")
 
@@ -61,42 +64,41 @@ while menu == "0":
         clear()
 
         # request blockheight from user
-        custom_height = input("Enter " + str(coin_ticker) + " Block Height: ")
-        custom_header = oscillated.get_block_header_by_height(int(custom_height))
+        block_height = input("Enter " + str(coin_ticker) + " Block Height: ")
+        block_header = oscillated.get_block_header_by_height(int(block_height))
 
         # load our Json
-        custom_header_dump = json.dumps(custom_header)
-        custom_header_loads = json.loads(custom_header_dump)
+        block_header_dump = json.dumps(block_header)
+        block_header_loads = json.loads(block_header_dump)
     
         # use the data from the JSON
-        custom_block_height = custom_height
-        custom_block_size = custom_header_loads['result']['block_header']['block_size']
-        custom_block_hash = custom_header_loads['result']['block_header']['hash']
-        custom_block_reward = custom_header_loads['result']['block_header']['reward']
-        custom_block_tx_count = custom_header_loads['result']['block_header']['num_txes']
-        custom_block_hashrate = round(custom_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
-        custom_block_timestamp = custom_header_loads['result']['block_header']['timestamp']
+        block_size = block_header_loads['result']['block_header']['block_size']
+        block_hash = block_header_loads['result']['block_header']['hash']
+        block_reward = block_header_loads['result']['block_header']['reward']
+        block_tx_count = block_header_loads['result']['block_header']['num_txes']
+        block_hashrate = round(block_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
+        block_timestamp = block_header_loads['result']['block_header']['timestamp']
 
         # convert timestamp to UTC
-        timestamp = custom_block_timestamp
+        timestamp = block_timestamp
         block_date = datetime.fromtimestamp(timestamp)
 
         clear()
 
         # Block Explorer GUI, but its CLI
         print("")
-        print("                        " + str(coin_ticker) + " Block " + str(custom_block_height) + " Info")
+        print("                        " + str(coin_ticker) + " Block " + str(block_height) + " Info")
         print("_________________________________________________________________________________")
         print("[-------------------------------------------------------------------------------]")
-        print("[         Size: " + str(custom_block_size) + "kb")
+        print("[         Size: " + str(block_size) + " bytes")
         print("[-------------------------------------------------------------------------------]")
-        print("[         Hash: " + str(custom_block_hash))
+        print("[         Hash: " + str(block_hash))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Reward: " + str(custom_block_reward) + " atomic units")
+        print("[         Reward: " + str(block_reward) + " atomic units")
         print("[-------------------------------------------------------------------------------]")
-        print("[         Transaction count: " + str(custom_block_tx_count))
+        print("[         Transaction count: " + str(block_tx_count))
         print("[-------------------------------------------------------------------------------]")
-        print("[         Net Hashrate: " + str(custom_block_hashrate) + "kh/s")
+        print("[         Net Hashrate: " + str(block_hashrate) + "kh/s")
         print("[-------------------------------------------------------------------------------]")
         print("[         Date: " + str(block_date))
         print("[-------------------------------------------------------------------------------]")
@@ -190,7 +192,7 @@ while menu == "0":
          print("")
          print("--------Transaction Information----------")
          print("")
-         print("Amount: " + str(txn_amount))
+         print("Amount: " + str(txn_amount) + " atomic units")
          print("Fee: " + str(txn_fee))
          print("Block: " + str(txn_block))
          print("Size: " + str(txn_size) + " bytes")
@@ -199,6 +201,7 @@ while menu == "0":
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
          clear()
+
     # wow atleast recommend this to a friend.
     while menu == "4":
         print("")
