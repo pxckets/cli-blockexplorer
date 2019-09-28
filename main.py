@@ -43,7 +43,7 @@ def clear():
 
 #main menu loop
 while menu == "0":
-    print("Copyright (c) 2019, The Oscillate devlopers")
+    print("Copyright (c) 2019, The Oscillate developers")
     print("")
     print(str(coin_ticker) + " Block Explorer")
     print("")
