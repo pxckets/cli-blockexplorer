@@ -30,6 +30,7 @@ else:
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 coin_ticker = "OSL"
+version = "1.0.1"
 menu = "0"
 
 #The clear function used in the latest block feature
@@ -45,7 +46,7 @@ def clear():
 while menu == "0":
     print("Copyright (c) 2019, The Oscillate developers")
     print("")
-    print(str(coin_ticker) + " Block Explorer")
+    print(str(coin_ticker) + " Block Explorer v" + str(version))
     print("")
     print("|----------------Options----------------|")
     print("|_______________________________________|")
@@ -63,21 +64,46 @@ while menu == "0":
 
         clear()
 
-        # request blockheight from user
-        block_height = input("Enter " + str(coin_ticker) + " Block Height: ")
-        block_header = oscillated.get_block_header_by_height(int(block_height))
+        #Hash or Height?
+        height_or_hash = input("Do you want to search for a block by height or by hash?: ")
 
-        # load our Json
-        block_header_dump = json.dumps(block_header)
-        block_header_loads = json.loads(block_header_dump)
-    
-        # use the data from the JSON
-        block_size = block_header_loads['result']['block_header']['block_size']
-        block_hash = block_header_loads['result']['block_header']['hash']
-        block_reward = block_header_loads['result']['block_header']['reward']
-        block_tx_count = block_header_loads['result']['block_header']['num_txes']
-        block_hashrate = round(block_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
-        block_timestamp = block_header_loads['result']['block_header']['timestamp']
+        if height_or_hash == "height":
+            # request blockheight from user
+            block_height = input("Enter " + str(coin_ticker) + " Block Height: ")
+            block_header = oscillated.get_block_header_by_height(int(block_height))
+
+            # load our Json for block height input
+            block_header_dump = json.dumps(block_header)
+            block_header_loads = json.loads(block_header_dump)
+        else:
+             #request hash from user
+             user_block_hash = input("Enter Block hash: ")
+             user_block_hash_data = oscillated.get_block_header_by_hash(str(user_block_hash))
+
+             # load our Json for bock hash input
+             user_block_hash_data_dumps = json.dumps(user_block_hash_data)
+             user_block_hash_data_loads = json.loads(user_block_hash_data_dumps)
+
+        if height_or_hash == "height":
+
+             # use the data from the JSON for height input
+             block_size = block_header_loads['result']['block_header']['block_size']
+             block_hash = block_header_loads['result']['block_header']['hash']
+             block_reward = block_header_loads['result']['block_header']['reward']
+             block_tx_count = block_header_loads['result']['block_header']['num_txes']
+             block_hashrate = round(block_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
+             block_timestamp = block_header_loads['result']['block_header']['timestamp']
+
+        else:
+            # use the data from the JSON for hash input
+             block_height = user_block_hash_data_loads['result']['block_header']['height']
+             block_size = user_block_hash_data_loads['result']['block_header']['block_size']
+             block_hash = user_block_hash_data_loads['result']['block_header']['hash']
+             block_reward = user_block_hash_data_loads['result']['block_header']['reward']
+             block_tx_count = user_block_hash_data_loads['result']['block_header']['num_txes']
+             block_hashrate = round(user_block_hash_data_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
+             block_timestamp = user_block_hash_data_loads['result']['block_header']['timestamp']
+        
 
         # convert timestamp to UTC
         timestamp = block_timestamp
