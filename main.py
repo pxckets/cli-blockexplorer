@@ -16,7 +16,7 @@ if user_node_selection == "y":
     # Request node IP from user
     while True:
         try:
-            rpc_host = input('Daemon IP: ')
+            rpc_host = input("Daemon IP: ")
             break
         except ConnectionError:
             print("Connection error to node. Please try again.")
@@ -37,10 +37,10 @@ menu = "0"
 #The clear function used in the latest block feature
 def clear(): 
   
-    if name == 'nt': 
-        _ = system('cls') 
+    if name == "nt": 
+        _ = system("cls") 
     else: 
-        _ = system('clear') 
+        _ = system("clear") 
 
 
 #main menu loop
@@ -89,22 +89,22 @@ while menu == "0":
         if height_or_hash == "height":
 
              # use the data from the JSON for height input
-             block_size = block_header_loads['result']['block_header']['block_size']
-             block_hash = block_header_loads['result']['block_header']['hash']
-             block_reward = block_header_loads['result']['block_header']['reward']
-             block_tx_count = block_header_loads['result']['block_header']['num_txes']
-             block_hashrate = round(block_header_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
-             block_timestamp = block_header_loads['result']['block_header']['timestamp']
+             block_size = block_header_loads["result"]["block_header"]["block_size"]
+             block_hash = block_header_loads["result"]["block_header"]["hash"]
+             block_reward = block_header_loads["result"]["block_header"]["reward"]
+             block_tx_count = block_header_loads["result"]["block_header"]["num_txes"]
+             block_hashrate = round(block_header_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
+             block_timestamp = block_header_loads["result"]["block_header"]["timestamp"]
 
         else:
             # use the data from the JSON for hash input
-             block_height = user_block_hash_data_loads['result']['block_header']['height']
-             block_size = user_block_hash_data_loads['result']['block_header']['block_size']
-             block_hash = user_block_hash_data_loads['result']['block_header']['hash']
-             block_reward = user_block_hash_data_loads['result']['block_header']['reward']
-             block_tx_count = user_block_hash_data_loads['result']['block_header']['num_txes']
-             block_hashrate = round(user_block_hash_data_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
-             block_timestamp = user_block_hash_data_loads['result']['block_header']['timestamp']
+             block_height = user_block_hash_data_loads["result"]["block_header"]["height"]
+             block_size = user_block_hash_data_loads["result"]["block_header"]["block_size"]
+             block_hash = user_block_hash_data_loads["result"]["block_header"]["hash"]
+             block_reward = user_block_hash_data_loads["result"]["block_header"]["reward"]
+             block_tx_count = user_block_hash_data_loads["result"]["block_header"]["num_txes"]
+             block_hashrate = round(user_block_hash_data_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
+             block_timestamp = user_block_hash_data_loads["result"]["block_header"]["timestamp"]
         
 
         # convert timestamp to UTC
@@ -164,13 +164,13 @@ while menu == "0":
             last_block_loads = json.loads(last_block_dump)
 
             #then load this stuff
-            last_block_height = last_block_loads['result']['block_header']['height']
-            last_block_size = last_block_loads['result']['block_header']['block_size']
-            last_block_hash = last_block_loads['result']['block_header']['hash']
-            last_block_reward = last_block_loads['result']['block_header']['reward']
-            last_block_tx_count = last_block_loads['result']['block_header']['num_txes']
-            last_block_hashrate = round(last_block_loads['result']['block_header']['difficulty'] / 60 / 1000, 2)
-            last_block_timestamp = last_block_loads['result']['block_header']['timestamp']
+            last_block_height = last_block_loads["result"]["block_header"]["height"]
+            last_block_size = last_block_loads["result"]["block_header"]["block_size"]
+            last_block_hash = last_block_loads["result"]["block_header"]["hash"]
+            last_block_reward = last_block_loads["result"]["block_header"]["reward"]
+            last_block_tx_count = last_block_loads["result"]["block_header"]["num_txes"]
+            last_block_hashrate = round(last_block_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
+            last_block_timestamp = last_block_loads["result"]["block_header"]["timestamp"]
 
             clear()
 
@@ -238,7 +238,7 @@ while menu == "0":
         pool2 = "http://74.130.176.161:8245/stats" #DuckTownCrypto (Dr. Greenthumb)
         pool3 = "http://osc.line-pool.ru/stats" #Line Pool (mawr)
         pool4 = "http://whonnock.spookypool.nl:8217/stats" #SpookyPool (MunchieHigh420)
-
+        
         pool1_response = urllib.request.urlopen(pool1)
         pool2_response = urllib.request.urlopen(pool2)
         pool3_response = urllib.request.urlopen(pool3)
@@ -249,53 +249,63 @@ while menu == "0":
         pool3_data = json.loads(pool3_response.read())
         pool4_data = json.loads(pool4_response.read())
 
-        pool1_hashrate = pool1_data['pool']['hashrate'] / 1000
-        pool1_miners = pool1_data['pool']['miners']
-        pool1_fee = pool1_data['config']['fee']
+        network_hashrate = round(pool1_data["network"]["difficulty"] / 60 / 1000)
 
-        pool2_hashrate = pool2_data['pool']['hashrate'] / 1000
-        pool2_miners = pool2_data['pool']['miners']
-        pool2_fee = pool2_data['config']['fee']
+        pool1_hashrate = pool1_data["pool"]["hashrate"] / 1000
+        pool1_miners = pool1_data["pool"]["miners"]
+        pool1_fee = pool1_data["config"]["fee"]
 
-        pool3_hashrate = pool3_data['pool']['hashrate'] / 1000
-        pool3_miners = pool3_data['pool']['miners']
-        pool3_fee = pool3_data['config']['fee']
+        pool2_hashrate = pool2_data["pool"]["hashrate"] / 1000
+        pool2_miners = pool2_data["pool"]["miners"]
+        pool2_fee = pool2_data["config"]["fee"]
 
-        pool4_hashrate = pool4_data['pool']['hashrate'] / 1000
-        pool4_miners = pool4_data['pool']['miners']
-        pool4_fee = pool4_data['config']['fee']
+        pool3_hashrate = pool3_data["pool"]["hashrate"] / 1000
+        pool3_miners = pool3_data["pool"]["miners"]
+        pool3_fee = pool3_data["config"]["fee"]
 
+        pool4_hashrate = pool4_data["pool"]["hashrate"] / 1000
+        pool4_miners = pool4_data["pool"]["miners"]
+        pool4_fee = pool4_data["config"]["fee"]
+
+        total_pool_hashrate = round(pool1_hashrate + pool2_hashrate + pool3_hashrate + pool4_hashrate)
+        total_pool_miners = pool1_miners + pool2_miners + pool3_miners + pool4_miners
+        
+        know_hashrate_percentage = round((100 / network_hashrate) * total_pool_hashrate)
         clear()
 
         print("")
         print("----Official Pool----")
-        print("Hash rate: " + str(pool1_hashrate) + "kh/s")
+        print("Hash rate: " + str(pool1_hashrate) + " kh/s")
         print("Miners: " + str(pool1_miners))
         print("Fee: " + str(pool1_fee) + "%")
         print("_______________________")
         print("")
         print("")
         print("----DuckTownMining---")
-        print("Hash rate: " + str(pool2_hashrate) + "kh/s")
+        print("Hash rate: " + str(pool2_hashrate) + " kh/s")
         print("Miners: " + str(pool2_miners))
         print("Fee: " + str(pool2_fee) + "%")
         print("_______________________")
         print("")
         print("")
         print("-------Line Pool-------")
-        print("Hash rate: " + str(pool3_hashrate) + "kh/s")
+        print("Hash rate: " + str(pool3_hashrate) + " kh/s")
         print("Miners: " + str(pool3_miners))
         print("Fee: " + str(pool3_fee) + "%")
         print("_______________________")
         print("")
         print("")
         print("------Spooky Pool------")
-        print("Hash rate: " + str(pool4_hashrate) + "kh/s")
+        print("Hash rate: " + str(pool4_hashrate) + " kh/s")
         print("Miners: " + str(pool4_miners))
         print("Fee: " + str(pool4_fee) + "%")
         print("_______________________")
         print("")
-
+        print("Network hashrate: " + str(network_hashrate) + " kh/s")
+        print("Total known hashrate: " + str(total_pool_hashrate) + " kh/s")
+        print("Total miners: " + str(total_pool_miners))
+        print("Percentage of hashrate known: " + str(know_hashrate_percentage) + "%")
+        print("")
         menu = input("Press 0 to go back to the main menu.")
 
         clear()
