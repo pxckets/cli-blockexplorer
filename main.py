@@ -77,27 +77,25 @@ while menu == "0":
             # load our Json for block height input
             block_header_dump = json.dumps(block_header)
             block_header_loads = json.loads(block_header_dump)
+            
+            # use the data from the JSON for height input
+            block_size = block_header_loads["result"]["block_header"]["block_size"]
+            block_hash = block_header_loads["result"]["block_header"]["hash"]
+            block_reward = block_header_loads["result"]["block_header"]["reward"]
+            block_tx_count = block_header_loads["result"]["block_header"]["num_txes"]
+            block_hashrate = round(block_header_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
+            block_timestamp = block_header_loads["result"]["block_header"]["timestamp"]
+
         else:
              #request hash from user
-             user_block_hash = input("Block height to view: ")
+             user_block_hash = input(str(coin_ticker) + " Block hash to view: ")
              user_block_hash_data = oscillated.get_block_header_by_hash(str(user_block_hash))
 
              # load our Json for bock hash input
              user_block_hash_data_dumps = json.dumps(user_block_hash_data)
              user_block_hash_data_loads = json.loads(user_block_hash_data_dumps)
 
-        if height_or_hash == "height":
-
-             # use the data from the JSON for height input
-             block_size = block_header_loads["result"]["block_header"]["block_size"]
-             block_hash = block_header_loads["result"]["block_header"]["hash"]
-             block_reward = block_header_loads["result"]["block_header"]["reward"]
-             block_tx_count = block_header_loads["result"]["block_header"]["num_txes"]
-             block_hashrate = round(block_header_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
-             block_timestamp = block_header_loads["result"]["block_header"]["timestamp"]
-
-        else:
-            # use the data from the JSON for hash input
+             # use the data from the JSON for hash input
              block_height = user_block_hash_data_loads["result"]["block_header"]["height"]
              block_size = user_block_hash_data_loads["result"]["block_header"]["block_size"]
              block_hash = user_block_hash_data_loads["result"]["block_header"]["hash"]
@@ -105,8 +103,9 @@ while menu == "0":
              block_tx_count = user_block_hash_data_loads["result"]["block_header"]["num_txes"]
              block_hashrate = round(user_block_hash_data_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
              block_timestamp = user_block_hash_data_loads["result"]["block_header"]["timestamp"]
-        
+             
 
+            
         # convert timestamp to UTC
         timestamp = block_timestamp
         block_date = datetime.fromtimestamp(timestamp)
