@@ -31,7 +31,7 @@ else:
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 coin_ticker = "OSL"
-version = "1.1.2"
+version = "1.1.3"
 menu = "0"
 
 #The clear function used in the latest block feature
@@ -56,6 +56,7 @@ while menu == "0":
     print("|(2). View live current net statistics  |")
     print("|(3). View transaction data             |")
     print("|(4). View Pool Information             |")
+    print("|(5). Links")
     print("|(5). Exit                              |")
     print("|_______________________________________|")
 
@@ -308,11 +309,25 @@ while menu == "0":
         menu = input("Press 0 to go back to the main menu.")
 
         clear()
-        
-    # wow atleast recommend this to a friend.
+
     while menu == "5":
-        print("")
+        print("-----GitHub-----")
         print("https://github.com/pxckets/cli-blockexplorer")
+        print("________________")
+        print("")
+        print("-----Discord----")
+        print("https://discord.gg/b5JzwWa")
+        print("________________")
+        print("")
+        print("-----Website----")
+        print("http://oscillate.me/")
+        print("________________")
+
+        menu = input("Enter 0 to go back to the main menu: ")
+
+    # wow atleast recommend this to a friend.
+    while menu == "6":
+        print("")
         print("Have a good day :)")
         print("Window will automatically close in 5 seconds...")
         time.sleep(5)
