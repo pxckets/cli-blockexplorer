@@ -31,7 +31,7 @@ else:
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 coin_ticker = "OSL"
-version = "1.1.1"
+version = "1.1.2"
 menu = "0"
 
 #The clear function used in the latest block feature
