@@ -31,7 +31,7 @@ else:
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 coin_ticker = "OSL"
-version = "1.1.3"
+version = "1.1.4"
 menu = "0"
 
 #The clear function used in the latest block feature
@@ -49,6 +49,8 @@ while menu == "0":
     print("")
     print(str(coin_ticker) + " Block Explorer v" + str(version))
     print("")
+    print("SWAP AT BLOCK 400,000. MAKE SURE TO SEND ALL OF YOUR OSL TO TRADECX.")
+    print("")
     print("|----------------Options----------------|")
     print("|_______________________________________|")
     print("|                                       |")
@@ -56,8 +58,8 @@ while menu == "0":
     print("|(2). View live current net statistics  |")
     print("|(3). View transaction data             |")
     print("|(4). View Pool Information             |")
-    print("|(5). Links")
-    print("|(5). Exit                              |")
+    print("|(5). Links                             |")
+    print("|(6). Exit                              |")
     print("|_______________________________________|")
 
     menu = input("Enter selection: ")
@@ -116,28 +118,28 @@ while menu == "0":
         # Block Explorer GUI, but its CLI
         print("")
         print("                        " + str(coin_ticker) + " Block " + str(block_height) + " Info")
-        print("_________________________________________________________________________________")
-        print("[-------------------------------------------------------------------------------]")
+        print("______________________________________________________________________________________")
+        print("[------------------------------------------------------------------------------------]")
         print("[         Size: " + str(block_size) + " bytes")
-        print("[-------------------------------------------------------------------------------]")
+        print("[------------------------------------------------------------------------------------]")
         print("[         Hash: " + str(block_hash))
-        print("[-------------------------------------------------------------------------------]")
+        print("[------------------------------------------------------------------------------------]")
         print("[         Reward: " + str(block_reward) + " atomic units")
-        print("[-------------------------------------------------------------------------------]")
+        print("[------------------------------------------------------------------------------------]")
         print("[         Transaction count: " + str(block_tx_count))
-        print("[-------------------------------------------------------------------------------]")
+        print("[------------------------------------------------------------------------------------]")
         print("[         Net Hashrate: " + str(block_hashrate) + "kh/s")
-        print("[-------------------------------------------------------------------------------]")
+        print("[------------------------------------------------------------------------------------]")
         print("[         Date: " + str(block_date))
-        print("[-------------------------------------------------------------------------------]")
-        print("_________________________________________________________________________________")
+        print("[------------------------------------------------------------------------------------]")
+        print("______________________________________________________________________________________")
 
         # yeet or skeet
         menu = input("Press 1 to check another block, 0 to go back to the menu: ")
 
         clear()
 
-    #current block information
+    #current network information
     while menu == "2":
 
         clear()
@@ -180,15 +182,15 @@ while menu == "0":
             print("                           Data refreshes every " + update_time + " seconds")
             print("_________________________________________________________________________________")
             print("[-------------------------------------------------------------------------------]")
-            print("[         Size: " + str(last_block_size) + " bytes")
+            print("[         Last Size: " + str(last_block_size) + " bytes")
             print("[-------------------------------------------------------------------------------]")
-            print("[         Hash: " + str(last_block_hash))
+            print("[         Last Hash: " + str(last_block_hash))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Reward: " + str(last_block_reward) + " atomic units")
+            print("[         Last Reward: " + str(last_block_reward) + " atomic units")
             print("[-------------------------------------------------------------------------------]")
-            print("[         Transaction count: " + str(last_block_tx_count))
+            print("[         TXNS in last block: " + str(last_block_tx_count))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Net Hashrate: " + str(last_block_hashrate) + "kh/s")
+            print("[         Network Hashrate: " + str(last_block_hashrate) + "kh/s")
             print("[-------------------------------------------------------------------------------]")
             print("_________________________________________________________________________________")
             
@@ -322,6 +324,11 @@ while menu == "0":
         print("-----Website----")
         print("http://oscillate.me/")
         print("________________")
+        print("")
+        print("----Exchange----")
+        print("https://tradecx.io/markets/osldoge")
+        print("________________")
+        print("")
 
         menu = input("Enter 0 to go back to the main menu: ")
 
