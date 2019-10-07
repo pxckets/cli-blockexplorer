@@ -31,10 +31,10 @@ else:
 rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
 coin_ticker = "OSL"
-version = "1.1.4"
+version = "1.1.5"
 menu = "0"
 
-#The clear function used in the latest block feature
+#Clear console function
 def clear(): 
   
     if name == "nt": 
@@ -152,6 +152,7 @@ while menu == "0":
             print("Update time cannot be zero, setting to 1.")
             update_time = "1"
     
+
         #loop this shit
         while True:
             #snag that block
@@ -171,7 +172,7 @@ while menu == "0":
             last_block_hash = last_block_loads["result"]["block_header"]["hash"]
             last_block_reward = last_block_loads["result"]["block_header"]["reward"]
             last_block_tx_count = last_block_loads["result"]["block_header"]["num_txes"]
-            last_block_hashrate = round(last_block_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
+            last_block_hashrate = round(last_block_loads["result"]["block_header"]["difficulty"] / 60 / 1000000, 2)
             last_block_timestamp = last_block_loads["result"]["block_header"]["timestamp"]
 
             clear()
@@ -179,7 +180,7 @@ while menu == "0":
             #yeah. this looks cool
             print("")
             print("                         Latest " + str(coin_ticker) + " Block Data (" + str(last_block_height) + ") Info")
-            print("                           Data refreshes every " + update_time + " seconds")
+            print("                           Data refreshes every " + str(update_time) + " seconds")
             print("_________________________________________________________________________________")
             print("[-------------------------------------------------------------------------------]")
             print("[         Last Size: " + str(last_block_size) + " bytes")
@@ -190,13 +191,19 @@ while menu == "0":
             print("[-------------------------------------------------------------------------------]")
             print("[         TXNS in last block: " + str(last_block_tx_count))
             print("[-------------------------------------------------------------------------------]")
-            print("[         Network Hashrate: " + str(last_block_hashrate) + "kh/s")
+            print("[         Network Hashrate: " + str(last_block_hashrate) + "Mh/s")
             print("[-------------------------------------------------------------------------------]")
             print("_________________________________________________________________________________")
             
             #chill for however long the user said
-            time.sleep(int(update_time))
-            
+            try:
+                time.sleep(int(update_time))
+            except ValueError:
+                print("Update time must be an integer.")
+                print("Setting update time to 5 seconds...")
+                time.sleep(5)
+                update_time = (5)
+
             clear()
 
     while menu == "3":
@@ -220,13 +227,13 @@ while menu == "0":
 
         #TXN info gui but cli, you feel?
          print("")
-         print("--------Transaction Information----------")
-         print("")
-         print("Amount: " + str(txn_amount) + " atomic units")
-         print("Fee: " + str(txn_fee))
-         print("Block: " + str(txn_block))
-         print("Size: " + str(txn_size) + " bytes")
-         print("Size Percentage of block: " + str(txn_size_percentage) + "%")
+         print("|-------Transaction Information----------")
+         print("|")
+         print("| Amount: " + str(txn_amount) + " atomic units")
+         print("| Fee: " + str(txn_fee))
+         print("| Block: " + str(txn_block))
+         print("| Size: " + str(txn_size) + " bytes")
+         print("| Size Percentage of block: " + str(txn_size_percentage) + "%")
          print("")
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
@@ -276,6 +283,8 @@ while menu == "0":
         clear()
 
         print("")
+        print("SEMIPOOL IS REMOVING OSL, PLEASE UPDATE YOUR MINERS.")
+        print("")
         print("----Official Pool----")
         print("Hash rate: " + str(pool1_hashrate) + " kh/s")
         print("Miners: " + str(pool1_miners))
@@ -303,12 +312,12 @@ while menu == "0":
         print("Fee: " + str(pool4_fee) + "%")
         print("_______________________")
         print("")
-        print("Network hashrate: " + str(network_hashrate) + " kh/s")
-        print("Total known hashrate: " + str(total_pool_hashrate) + " kh/s")
+        print("Network hashrate: " + str(network_hashrate / 1000) + " Mh/s")
+        print("Total known hashrate: " + str(total_pool_hashrate) + " Kh/s")
         print("Total miners: " + str(total_pool_miners))
         print("Percentage of hashrate known: " + str(know_hashrate_percentage) + "%")
         print("")
-        menu = input("Press 0 to go back to the main menu.")
+        menu = input("Press 0 to go back to the main menu: ")
 
         clear()
 
