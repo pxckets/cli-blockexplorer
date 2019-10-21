@@ -1,13 +1,25 @@
-from turtlecoin import TurtleCoind
 import time
-from time import sleep
-from datetime import datetime
 import json
 import sys
-from os import system, name  
 import urllib.request
+from os import system, name  
+from datetime import datetime
+from turtlecoin import TurtleCoind
 
+#Clear console function
+def clear(): 
+  
+    if name == "nt": 
+        _ = system("cls") 
+    else: 
+        _ = system("clear") 
+
+# COIN CONFIG
+rpc_port = 11246
 default_node_ip = "159.203.95.84"
+coin_ticker = "OSL"
+version = "1.1.6"
+menu = "0"
 
 #ask user if they want to use a custom node
 user_node_selection = input("Would you like to use a custom node? y/n: ")
@@ -20,28 +32,10 @@ if user_node_selection == "y":
             break
         except ConnectionError:
             print("Connection error to node. Please try again.")
-
 else:
     rpc_host = str(default_node_ip) 
 
-
-#
-# COIN CONFIG
-#  
-rpc_port = 11246
 oscillated = TurtleCoind(rpc_host, rpc_port)
-coin_ticker = "OSL"
-version = "1.1.5"
-menu = "0"
-
-#Clear console function
-def clear(): 
-  
-    if name == "nt": 
-        _ = system("cls") 
-    else: 
-        _ = system("clear") 
-
 
 #main menu loop
 while menu == "0":
@@ -149,8 +143,8 @@ while menu == "0":
 
         #so the user doesnt crash their PC
         if update_time == "0":
-            print("Update time cannot be zero, setting to 1.")
-            update_time = "1"
+            print("Update time cannot be zero, setting to 3.")
+            update_time = "3"
     
 
         #loop this shit
@@ -283,8 +277,6 @@ while menu == "0":
         clear()
 
         print("")
-        print("SEMIPOOL IS REMOVING OSL, PLEASE UPDATE YOUR MINERS.")
-        print("")
         print("----Official Pool----")
         print("Hash rate: " + str(pool1_hashrate) + " kh/s")
         print("Miners: " + str(pool1_miners))
@@ -338,6 +330,13 @@ while menu == "0":
         print("https://tradecx.io/markets/osldoge")
         print("________________")
         print("")
+        print("----Twitter-----")
+        print("https://twitter.com/CoinOscillate")
+        print("________________")
+        print("")
+        print("Mining Pool List")
+        print("https://miningpoolstats.stream/oscillate")
+        print("________________")
 
         menu = input("Enter 0 to go back to the main menu: ")
 
