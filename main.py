@@ -17,14 +17,23 @@ def clear():
 # COIN CONFIG
 coin_ticker = "OSL"
 coin_name = "oscillate"
+block_time = 60 #seconds
 website = "http://oscillate.me/"
 exchange = "https://tradecx.io/markets/osldoge"
 discord = "https://discord.gg/b5JzwWa"
 twitter = "https://twitter.com/CoinOscillate"
 rpc_port = 11246
 default_node_ip = "159.203.95.84"
-version = "1.1.7"
+version = "1.1.8"
 menu = "0"
+
+#pools
+#if you want more/less pools, goto line 254 and figure it out yourself.
+
+pool1 = "http://159.203.95.84:8245/stats" #official pool (pxckets)
+pool2 = "http://74.130.176.161:8245/stats" #DuckTownCrypto (Dr. Greenthumb)
+pool3 = "http://osc.line-pool.ru/stats" #Line Pool (mawr)
+pool4 = "http://whonnock.spookypool.nl:8217/stats" #SpookyPool (MunchieHigh420)
 
 #ask user if they want to use a custom node
 user_node_selection = input("Would you like to use a custom node? y/n: ")
@@ -144,6 +153,7 @@ while menu == "0":
         clear()
 
         #Request time interval
+        print(str(block_time) + " seconds is the recommended amount of time")
         update_time = input("How often do you want to update the info? In seconds: ")
 
         #so the user doesnt crash their PC
@@ -191,6 +201,8 @@ while menu == "0":
             print("[         TXNS in last block: " + str(last_block_tx_count))
             print("[-------------------------------------------------------------------------------]")
             print("[         Network Hashrate: " + str(last_block_hashrate) + "Mh/s")
+            print("[-------------------------------------------------------------------------------]")
+            print("[                             SWAP IN " + str(400000 - last_block_height) + " BLOCKS")
             print("[-------------------------------------------------------------------------------]")
             print("_________________________________________________________________________________")
             
@@ -242,11 +254,6 @@ while menu == "0":
 
         print("Loading pool data.... please wait...")
 
-        pool1 = "http://159.203.95.84:8245/stats" #official pool (pxckets)
-        pool2 = "http://74.130.176.161:8245/stats" #DuckTownCrypto (Dr. Greenthumb)
-        pool3 = "http://osc.line-pool.ru/stats" #Line Pool (mawr)
-        pool4 = "http://whonnock.spookypool.nl:8217/stats" #SpookyPool (MunchieHigh420)
-        
         pool1_response = urllib.request.urlopen(pool1)
         pool2_response = urllib.request.urlopen(pool2)
         pool3_response = urllib.request.urlopen(pool3)
