@@ -15,10 +15,15 @@ def clear():
         _ = system("clear") 
 
 # COIN CONFIG
+coin_ticker = "OSL"
+coin_name = "oscillate"
+website = "http://oscillate.me/"
+exchange = "https://tradecx.io/markets/osldoge"
+discord = "https://discord.gg/b5JzwWa"
+twitter = "https://twitter.com/CoinOscillate"
 rpc_port = 11246
 default_node_ip = "159.203.95.84"
-coin_ticker = "OSL"
-version = "1.1.6"
+version = "1.1.7"
 menu = "0"
 
 #ask user if they want to use a custom node
@@ -35,7 +40,7 @@ if user_node_selection == "y":
 else:
     rpc_host = str(default_node_ip) 
 
-oscillated = TurtleCoind(rpc_host, rpc_port)
+daemon = TurtleCoind(rpc_host, rpc_port)
 
 #main menu loop
 while menu == "0":
@@ -69,7 +74,7 @@ while menu == "0":
         if height_or_hash == "height":
             # request blockheight from user
             block_height = input("Enter " + str(coin_ticker) + " Block Height: ")
-            block_header = oscillated.get_block_header_by_height(int(block_height))
+            block_header = daemon.get_block_header_by_height(int(block_height))
 
             # load our Json for block height input
             block_header_dump = json.dumps(block_header)
@@ -86,7 +91,7 @@ while menu == "0":
         else:
              #request hash from user
              user_block_hash = input(str(coin_ticker) + " Block hash to view: ")
-             user_block_hash_data = oscillated.get_block_header_by_hash(str(user_block_hash))
+             user_block_hash_data = daemon.get_block_header_by_hash(str(user_block_hash))
 
              # load our Json for bock hash input
              user_block_hash_data_dumps = json.dumps(user_block_hash_data)
@@ -151,7 +156,7 @@ while menu == "0":
         while True:
             #snag that block
             try:
-                last_block = oscillated.get_last_block_header()
+                last_block = daemon.get_last_block_header()
             except(ConnectionError):
                 print("Error connecting to daemon!")
                 menu = 0
@@ -206,7 +211,7 @@ while menu == "0":
          txn_hash = input("Enter " + str(coin_ticker) + " TXN hash: ")
 
          # send that data to the daemon, and get the response back
-         txn_hash_data = oscillated.get_transaction(txn_hash)
+         txn_hash_data = daemon.get_transaction(txn_hash)
 
         #JSON load
          txn_hash_dump = json.dumps(txn_hash_data)
@@ -319,23 +324,23 @@ while menu == "0":
         print("________________")
         print("")
         print("-----Discord----")
-        print("https://discord.gg/b5JzwWa")
+        print(discord)
         print("________________")
         print("")
         print("-----Website----")
-        print("http://oscillate.me/")
+        print(website)
         print("________________")
         print("")
         print("----Exchange----")
-        print("https://tradecx.io/markets/osldoge")
+        print(exchange)
         print("________________")
         print("")
         print("----Twitter-----")
-        print("https://twitter.com/CoinOscillate")
+        print(twitter)
         print("________________")
         print("")
-        print("Mining Pool List")
-        print("https://miningpoolstats.stream/oscillate")
+        print("--Mining Pool List--")
+        print("https://miningpoolstats.stream/" + str(coin_name))
         print("________________")
 
         menu = input("Enter 0 to go back to the main menu: ")
