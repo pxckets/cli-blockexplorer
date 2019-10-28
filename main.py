@@ -16,7 +16,7 @@ def clear():
 
 #CONFIG
 coin_ticker = "OSL"
-coin_name = "oscillate"
+coin_name = "Oscillate"
 block_time = 60 #seconds
 coin_github = "https://github.com/oscillate-coin"
 website = "http://oscillate.me/"
@@ -25,7 +25,9 @@ discord = "https://discord.gg/b5JzwWa"
 twitter = "https://twitter.com/CoinOscillate"
 rpc_port = 11246
 default_node_ip = "159.203.95.84"
-version = "1.1.9"
+swap = True #set to true if your coin is doing a swap
+swap_height = 400000 #ignore this if you arent doing a swap. If you are, set this to your swap height.
+version = "1.1.10"
 menu = "0"
 
 #pools
@@ -46,9 +48,14 @@ if user_node_selection == "y":
             rpc_host = input("Daemon IP: ")
             break
         except ConnectionError:
-            print("Connection error to node. Please try again.")
-else:
+            print("Connection error to node. Using default.") #does this even work??
+            rpc_host = default_node_ip
+
+elif user_node_selection == "n":
     rpc_host = str(default_node_ip) 
+
+else:
+    print("Invalid input, using default node.")
 
 daemon = TurtleCoind(rpc_host, rpc_port)
 
@@ -58,18 +65,25 @@ while menu == "0":
     print("")
     print(str(coin_ticker) + " Block Explorer v" + str(version))
     print("")
-    print("SWAP AT BLOCK 400,000. MAKE SURE TO SEND ALL OF YOUR OSL TO TRADECX.")
-    print("")
-    print("|----------------Options----------------|")
-    print("|_______________________________________|")
-    print("|                                       |")
-    print("|(1). Block Explorer                    |")
-    print("|(2). View live current net statistics  |")
-    print("|(3). View transaction data             |")
-    print("|(4). View Pool Information             |")
-    print("|(5). Links                             |")
-    print("|(6). Exit                              |")
-    print("|_______________________________________|")
+    print(website)
+    if swap == True:
+        print("SWAP AT BLOCK " +str(swap_height))
+        print("Join our discord " + str(discord) + " for more details")
+    print("""
+
+|----------------Options----------------|
+|_______________________________________|
+|                                       |
+|(1). Block Explorer                    |
+|(2). View live current net statistics  |
+|(3). View transaction data             |
+|(4). View Pool Information             |
+|(5). Links                             |
+|(6). Exit                              |
+|_______________________________________|""")
+
+
+
 
     menu = input("Enter selection: ")
 
@@ -203,8 +217,12 @@ while menu == "0":
             print("[-------------------------------------------------------------------------------]")
             print("[         Network Hashrate: " + str(last_block_hashrate) + "Mh/s")
             print("[-------------------------------------------------------------------------------]")
-            print("[                             SWAP IN " + str(400000 - last_block_height) + " BLOCKS")
-            print("[-------------------------------------------------------------------------------]")
+            if swap == True:
+                print("[                             SWAP IN " + str(swap_height - last_block_height) + " BLOCKS")
+                print("")
+                print("[      Join our discord (" + str(discord) + ") for details about this swap")
+                print("")
+                print("[-------------------------------------------------------------------------------]")
             print("_________________________________________________________________________________")
             
             #chill for however long the user said
