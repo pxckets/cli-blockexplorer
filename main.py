@@ -14,17 +14,18 @@ def clear():
     else: 
         _ = system("clear") 
 
-# COIN CONFIG
+#CONFIG
 coin_ticker = "OSL"
 coin_name = "oscillate"
 block_time = 60 #seconds
+coin_github = "https://github.com/oscillate-coin"
 website = "http://oscillate.me/"
 exchange = "https://tradecx.io/markets/osldoge"
 discord = "https://discord.gg/b5JzwWa"
 twitter = "https://twitter.com/CoinOscillate"
 rpc_port = 11246
 default_node_ip = "159.203.95.84"
-version = "1.1.8"
+version = "1.1.9"
 menu = "0"
 
 #pools
@@ -326,23 +327,26 @@ while menu == "0":
         clear()
 
     while menu == "5":
-        print("-----GitHub-----")
+        print("-----BlockExplorer GitHub-----")
         print("https://github.com/pxckets/cli-blockexplorer")
         print("________________")
+        print("-----" + str(coin_name) + " Github----")
+        print(coin_github)
+        print("________________")
         print("")
-        print("-----Discord----")
+        print("-----" + str(coin_name) + " Discord----")
         print(discord)
         print("________________")
         print("")
-        print("-----Website----")
+        print("-----" + str(coin_name) + " Website----")
         print(website)
         print("________________")
         print("")
-        print("----Exchange----")
+        print("----" + str(coin_name) + " Exchange----")
         print(exchange)
         print("________________")
         print("")
-        print("----Twitter-----")
+        print("----" + str(coin_name) + " Twitter-----")
         print(twitter)
         print("________________")
         print("")
