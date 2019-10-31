@@ -1,9 +1,14 @@
 # CLI BlockExplorer for Oscillate.
 Does what it says. Allows you to view information for the block specified.
 
-# Current Version: 1.1.11
+# Current Version: 1.1.12
 
 # Change-Log
+1.1.12
+Added BTT ANN field, 
+Custom Daemon notes, 
+Added average hash-per-miner
+
 
 1.1.11
 Removed SpookyPool (No response from server), 

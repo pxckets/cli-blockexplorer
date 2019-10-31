@@ -24,11 +24,12 @@ exchange = "https://tradecx.io/markets/osldoge"
 discord = "https://discord.gg/b5JzwWa"
 twitter = "https://twitter.com/CoinOscillate"
 telegram = "https://telegram" # I hate telegram
-rpc_port = 11246
+btt_ann = "https://bitcointalk.org/index.php?topic=5116182.0"
 default_node_ip = "159.203.95.84"
 swap = True #set to true if your coin is doing a swap
 swap_height = 400000 #ignore this if you arent doing a swap. If you are, set this to your swap height.
-version = "1.1.11"
+rpc_port = 11246
+version = "1.1.12"
 menu = "0"
 
 #pools
@@ -48,6 +49,7 @@ if user_node_selection == "y":
     # Request node IP from user
     while True:
         try:
+            print("Make sure the daemon you are requesting has the --enable-blockexplorer argument enabled.")
             rpc_host = input("Daemon IP: ")
             break
         except ConnectionError:
@@ -256,7 +258,6 @@ while menu == "0":
          txn_size_percentage = round(100 / txn_hash_loads["result"]["block"]["cumul_size"] * txn_size)
 
         #TXN info gui but cli, you feel?
-         print("")
          print("|-------Transaction Information----------")
          print("|")
          print("| Amount: " + str(txn_amount) + " atomic units")
@@ -281,7 +282,7 @@ while menu == "0":
         print("Information received from " + pool2_name)
         pool3_response = urllib.request.urlopen(pool3)
         print("Information received from " + pool3_name)
-        
+
         print("Information Retrieved from all pool servers.")
 
         pool1_data = json.loads(pool1_response.read())
@@ -305,6 +306,7 @@ while menu == "0":
 
         total_pool_hashrate = round(pool1_hashrate + pool2_hashrate + pool3_hashrate)
         total_pool_miners = pool1_miners + pool2_miners + pool3_miners
+        avg_hash_per_miner = round(total_pool_hashrate / total_pool_miners)
         
         know_hashrate_percentage = round((100 / network_hashrate) * total_pool_hashrate)
 
@@ -329,9 +331,14 @@ while menu == "0":
         print("Fee: " + str(pool3_fee) + "%")
         print("_______________________")
         print("")
-        print("Network hashrate: " + str(network_hashrate / 1000) + " Mh/s")
+        print("Network hashrate: " + str(network_hashrate) + " Kh/s")
+        print("")
         print("Total known hashrate: " + str(total_pool_hashrate) + " Kh/s")
+        print("")
         print("Total miners: " + str(total_pool_miners))
+        print("")
+        print("Avg Hash per miner: " + str(avg_hash_per_miner) + " Kh/s")
+        print("")
         print("Percentage of hashrate known: " + str(know_hashrate_percentage) + "%")
 
         if know_hashrate_percentage > 100:
@@ -375,6 +382,9 @@ while menu == "0":
         print(telegram)
         print("________________")
         print("")
+        print("----" + str(coin_name) + " BTT ANN-----")
+        print(btt_ann)
+        print("________________")
         print("--Mining Pool List--")
         print("https://miningpoolstats.stream/" + str(coin_name))
         print("________________")
