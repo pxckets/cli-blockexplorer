@@ -23,20 +23,23 @@ website = "http://oscillate.me/"
 exchange = "https://tradecx.io/markets/osldoge"
 discord = "https://discord.gg/b5JzwWa"
 twitter = "https://twitter.com/CoinOscillate"
+telegram = "https://telegram" # I hate telegram
 rpc_port = 11246
 default_node_ip = "159.203.95.84"
 swap = True #set to true if your coin is doing a swap
 swap_height = 400000 #ignore this if you arent doing a swap. If you are, set this to your swap height.
-version = "1.1.10"
+version = "1.1.11"
 menu = "0"
 
 #pools
 #if you want more/less pools, goto line 254 and figure it out yourself.
-
 pool1 = "http://159.203.95.84:8245/stats" #official pool (pxckets)
 pool2 = "http://74.130.176.161:8245/stats" #DuckTownCrypto (Dr. Greenthumb)
 pool3 = "http://osc.line-pool.ru/stats" #Line Pool (mawr)
-pool4 = "http://whonnock.spookypool.nl:8217/stats" #SpookyPool (MunchieHigh420)
+
+pool1_name = "Official Pool"
+pool2_name = "DuckTown"
+pool3_name = "Line Pool"
 
 #ask user if they want to use a custom node
 user_node_selection = input("Would you like to use a custom node? y/n: ")
@@ -61,7 +64,7 @@ daemon = TurtleCoind(rpc_host, rpc_port)
 
 #main menu loop
 while menu == "0":
-    print("Copyright (c) 2019, The Oscillate developers")
+    print("Copyright (c) 2019, The Oscillate developers") # on jah dont remove this
     print("")
     print(str(coin_ticker) + " Block Explorer v" + str(version))
     print("")
@@ -81,9 +84,6 @@ while menu == "0":
 |(5). Links                             |
 |(6). Exit                              |
 |_______________________________________|""")
-
-
-
 
     menu = input("Enter selection: ")
 
@@ -271,17 +271,22 @@ while menu == "0":
 
     while menu == "4":
 
+        pool_data_loaded = False
+
         print("Loading pool data.... please wait...")
 
         pool1_response = urllib.request.urlopen(pool1)
+        print("Information received from " + pool1_name)
         pool2_response = urllib.request.urlopen(pool2)
+        print("Information received from " + pool2_name)
         pool3_response = urllib.request.urlopen(pool3)
-        pool4_response = urllib.request.urlopen(pool4)
+        print("Information received from " + pool3_name)
+        
+        print("Information Retrieved from all pool servers.")
 
         pool1_data = json.loads(pool1_response.read())
         pool2_data = json.loads(pool2_response.read())
         pool3_data = json.loads(pool3_response.read())
-        pool4_data = json.loads(pool4_response.read())
 
         network_hashrate = round(pool1_data["network"]["difficulty"] / 60 / 1000)
 
@@ -297,50 +302,48 @@ while menu == "0":
         pool3_miners = pool3_data["pool"]["miners"]
         pool3_fee = pool3_data["config"]["fee"]
 
-        pool4_hashrate = pool4_data["pool"]["hashrate"] / 1000
-        pool4_miners = pool4_data["pool"]["miners"]
-        pool4_fee = pool4_data["config"]["fee"]
 
-        total_pool_hashrate = round(pool1_hashrate + pool2_hashrate + pool3_hashrate + pool4_hashrate)
-        total_pool_miners = pool1_miners + pool2_miners + pool3_miners + pool4_miners
+        total_pool_hashrate = round(pool1_hashrate + pool2_hashrate + pool3_hashrate)
+        total_pool_miners = pool1_miners + pool2_miners + pool3_miners
         
         know_hashrate_percentage = round((100 / network_hashrate) * total_pool_hashrate)
+
         clear()
 
         print("")
-        print("----Official Pool----")
+        print("----" + pool1_name + "----")
         print("Hash rate: " + str(pool1_hashrate) + " kh/s")
         print("Miners: " + str(pool1_miners))
         print("Fee: " + str(pool1_fee) + "%")
         print("_______________________")
         print("")
-        print("")
-        print("----DuckTownMining---")
+        print("----" + pool2_name + "----")
         print("Hash rate: " + str(pool2_hashrate) + " kh/s")
         print("Miners: " + str(pool2_miners))
         print("Fee: " + str(pool2_fee) + "%")
         print("_______________________")
         print("")
-        print("")
-        print("-------Line Pool-------")
+        print("----" + pool3_name + "----")
         print("Hash rate: " + str(pool3_hashrate) + " kh/s")
         print("Miners: " + str(pool3_miners))
         print("Fee: " + str(pool3_fee) + "%")
-        print("_______________________")
-        print("")
-        print("")
-        print("------Spooky Pool------")
-        print("Hash rate: " + str(pool4_hashrate) + " kh/s")
-        print("Miners: " + str(pool4_miners))
-        print("Fee: " + str(pool4_fee) + "%")
         print("_______________________")
         print("")
         print("Network hashrate: " + str(network_hashrate / 1000) + " Mh/s")
         print("Total known hashrate: " + str(total_pool_hashrate) + " Kh/s")
         print("Total miners: " + str(total_pool_miners))
         print("Percentage of hashrate known: " + str(know_hashrate_percentage) + "%")
+
+        if know_hashrate_percentage > 100:
+            print("The total known hashrate is only " + str(know_hashrate_percentage - 100) + "%" + " higher than the actual network hashrate due to pools being lucky. Not an attack.")
+            print("Nothing to worry about frens!!")
+        
+        elif know_hashrate_percentage < 100:
+            print("The unkown " + str(100 - know_hashrate_percentage) + "%" + " Can be caused by solo miners, private pools, or a difficulty spike.")
+
         print("")
-        menu = input("Press 0 to go back to the main menu: ")
+
+        menu = input("Enter 0 to go back to the main menu: ")
 
         clear()
 
@@ -366,6 +369,10 @@ while menu == "0":
         print("")
         print("----" + str(coin_name) + " Twitter-----")
         print(twitter)
+        print("________________")
+        print("")
+        print("----" + str(coin_name) + " Telegram-----")
+        print(telegram)
         print("________________")
         print("")
         print("--Mining Pool List--")

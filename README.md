@@ -1,7 +1,18 @@
 # CLI BlockExplorer for Oscillate.
 Does what it says. Allows you to view information for the block specified.
 
-# Current Version: 1.1.10
+# Current Version: 1.1.11
+
+# Change-Log
+
+1.1.11
+-Removed SpookyPool (No response from server)
+-Added pool name configuration field
+-Added Telegram config
+-Added feature to print progress of pool information gathering
+-Now tell the user the reasons of the know network percentage variations.
+
+
 
 ## Forking
 Simply goto the config and make the changes.
