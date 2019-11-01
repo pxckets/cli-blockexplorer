@@ -1,7 +1,7 @@
 # CLI BlockExplorer for Oscillate.
 Does what it says. Allows you to view information for the block specified.
 
-# Current Version: 1.1.13
+# Current Version: 1.1.14
 
 # Change-Log
 
