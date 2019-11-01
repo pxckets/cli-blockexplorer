@@ -51,14 +51,8 @@ if user_node_selection == "y":
         try:
             print("Make sure the daemon you are requesting has the --enable-blockexplorer argument enabled.")
             rpc_host = input("Daemon IP: ")
-            response = os.system("ping -c 1 " + rpc_host)
-
-            if response == 0:
-                print("Node is online :)")
-            else:
-                print("Node is offline, using default.")
-                rpc_host = default_node_ip
-
+            response = os.system("ping " + rpc_host)
+            break
         except ConnectionError:
             print("Connection error to node. Using default.") #does this even work??
             rpc_host = default_node_ip
