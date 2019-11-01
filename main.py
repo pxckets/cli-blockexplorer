@@ -2,6 +2,7 @@ import time
 import json
 import sys
 import urllib.request
+import os
 from os import system, name  
 from datetime import datetime
 from turtlecoin import TurtleCoind
@@ -50,7 +51,14 @@ if user_node_selection == "y":
         try:
             print("Make sure the daemon you are requesting has the --enable-blockexplorer argument enabled.")
             rpc_host = input("Daemon IP: ")
-            break
+            response = os.system("ping -c 1 " + rpc_host)
+
+            if response == 0:
+                print("Node is online :)")
+            else:
+                print("Node is offline, using default.")
+                rpc_host = default_node_ip
+
         except ConnectionError:
             print("Connection error to node. Using default.") #does this even work??
             rpc_host = default_node_ip
