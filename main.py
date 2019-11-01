@@ -26,10 +26,8 @@ twitter = "https://twitter.com/CoinOscillate"
 telegram = "https://telegram" # I hate telegram
 btt_ann = "https://bitcointalk.org/index.php?topic=5116182.0"
 default_node_ip = "159.203.95.84"
-swap = True #set to true if your coin is doing a swap
-swap_height = 400000 #ignore this if you arent doing a swap. If you are, set this to your swap height.
 rpc_port = 11246
-version = "1.1.12"
+version = "1.1.13"
 menu = "0"
 
 #pools
@@ -64,6 +62,17 @@ else:
 
 daemon = TurtleCoind(rpc_host, rpc_port)
 
+swap = True #set to true if your coin is doing a swap
+swap_height = 400000 #ignore this if you arent doing a swap. If you are, set this to your swap height.
+
+block_height = daemon.get_last_block_header()
+block_height_dump = json.dumps(block_height)
+block_height_loads = json.loads(block_height_dump)
+block_height = block_height_loads["result"]["block_header"]["height"]
+if block_height > swap_height:
+    swap = False
+    swap_height = 0
+
 #main menu loop
 while menu == "0":
     print("Copyright (c) 2019, The Oscillate developers") # on jah dont remove this
@@ -88,6 +97,10 @@ while menu == "0":
 |_______________________________________|""")
 
     menu = input("Enter selection: ")
+
+
+
+
 
     #blockexplorer
     while menu == "1":
@@ -164,6 +177,10 @@ while menu == "0":
 
         clear()
 
+
+
+
+
     #current network information
     while menu == "2":
 
@@ -220,9 +237,9 @@ while menu == "0":
             print("[         Network Hashrate: " + str(last_block_hashrate) + "Mh/s")
             print("[-------------------------------------------------------------------------------]")
             if swap == True:
-                print("[                             SWAP IN " + str(swap_height - last_block_height) + " BLOCKS")
+                print("[                           [ SWAP IN " + str(swap_height - last_block_height) + " BLOCKS ]")
                 print("")
-                print("[      Join our discord (" + str(discord) + ") for details about this swap")
+                print("[      Join our discord (" + str(discord) + ") for details about this swap]")
                 print("")
                 print("[-------------------------------------------------------------------------------]")
             print("_________________________________________________________________________________")
@@ -237,6 +254,9 @@ while menu == "0":
                 update_time = (5)
 
             clear()
+
+
+
 
     while menu == "3":
 
@@ -269,6 +289,10 @@ while menu == "0":
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
          clear()
+
+
+
+
 
     while menu == "4":
 
@@ -354,6 +378,10 @@ while menu == "0":
 
         clear()
 
+
+
+
+
     while menu == "5":
         print("-----BlockExplorer GitHub-----")
         print("https://github.com/pxckets/cli-blockexplorer")
@@ -390,6 +418,9 @@ while menu == "0":
         print("________________")
 
         menu = input("Enter 0 to go back to the main menu: ")
+
+
+
 
     # wow atleast recommend this to a friend.
     while menu == "6":

@@ -1,9 +1,15 @@
 # CLI BlockExplorer for Oscillate.
 Does what it says. Allows you to view information for the block specified.
 
-# Current Version: 1.1.12
+# Current Version: 1.1.13
 
 # Change-Log
+1.1.13
+Added auto-detection for netowkr going passed swap height, 
+Minor formatting changes, 
+Added spacing to make the code re-arrangement easier.
+
+
 1.1.12
 Added BTT ANN field, 
 Custom Daemon notes, 
