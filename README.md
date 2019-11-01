@@ -5,7 +5,7 @@ Does what it says. Allows you to view information for the block specified.
 
 # Change-Log
 1.1.13
-Added auto-detection for netowkr going passed swap height, 
+Added auto-detection for network going passed swap height, 
 Minor formatting changes, 
 Added spacing to make the code re-arrangement easier.
 
