@@ -6,6 +6,8 @@ from os import system, name
 from datetime import datetime
 from turtlecoin import TurtleCoind
 
+menu = "0"
+
 #Clear console function
 def clear(): 
   
@@ -28,7 +30,6 @@ btt_ann = "https://bitcointalk.org/index.php?topic=5116182.0"
 default_node_ip = "159.203.95.84"
 rpc_port = 11246
 version = "1.1.13"
-menu = "0"
 
 #pools
 #if you want more/less pools, goto line 254 and figure it out yourself.
@@ -98,10 +99,6 @@ while menu == "0":
 
     menu = input("Enter selection: ")
 
-
-
-
-
     #blockexplorer
     while menu == "1":
 
@@ -145,8 +142,6 @@ while menu == "0":
              block_hashrate = round(user_block_hash_data_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
              block_timestamp = user_block_hash_data_loads["result"]["block_header"]["timestamp"]
              
-
-            
         # convert timestamp to UTC
         timestamp = block_timestamp
         block_date = datetime.fromtimestamp(timestamp)
@@ -176,10 +171,6 @@ while menu == "0":
         menu = input("Press 1 to check another block, 0 to go back to the menu: ")
 
         clear()
-
-
-
-
 
     #current network information
     while menu == "2":
@@ -255,9 +246,6 @@ while menu == "0":
 
             clear()
 
-
-
-
     while menu == "3":
 
         #user input
@@ -289,10 +277,6 @@ while menu == "0":
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
          clear()
-
-
-
-
 
     while menu == "4":
 
@@ -418,9 +402,6 @@ while menu == "0":
         print("________________")
 
         menu = input("Enter 0 to go back to the main menu: ")
-
-
-
 
     # wow atleast recommend this to a friend.
     while menu == "6":
