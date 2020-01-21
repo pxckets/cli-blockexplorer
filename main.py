@@ -25,8 +25,8 @@ discord = "https://discord.gg/b5JzwWa"
 twitter = "https://twitter.com/CoinOscillate"
 telegram = "https://telegram" # I hate telegram
 btt_ann = "https://bitcointalk.org/index.php?topic=5116182.0"
-default_node_ip = "159.203.95.84"
-rpc_port = 11246
+default_node_ip = "eu.osl.pubnodes.com"
+rpc_port = 21246
 version = "1.1.13"
 menu = "0"
 
@@ -62,7 +62,7 @@ else:
 
 daemon = TurtleCoind(rpc_host, rpc_port)
 
-swap = True #set to true if your coin is doing a swap
+swap = False #set to true if your coin is doing a swap
 swap_height = 400000 #ignore this if you arent doing a swap. If you are, set this to your swap height.
 
 block_height = daemon.get_last_block_header()
@@ -302,15 +302,15 @@ while menu == "0":
 
         pool1_response = urllib.request.urlopen(pool1)
         print("Information received from " + pool1_name)
-        pool2_response = urllib.request.urlopen(pool2)
-        print("Information received from " + pool2_name)
+        #pool2_response = urllib.request.urlopen(pool2)
+        #print("Information received from " + pool2_name)
         pool3_response = urllib.request.urlopen(pool3)
         print("Information received from " + pool3_name)
 
         print("Information Retrieved from all pool servers.")
 
         pool1_data = json.loads(pool1_response.read())
-        pool2_data = json.loads(pool2_response.read())
+        #pool2_data = json.loads(pool2_response.read())
         pool3_data = json.loads(pool3_response.read())
 
         network_hashrate = round(pool1_data["network"]["difficulty"] / 60 / 1000)
@@ -319,17 +319,17 @@ while menu == "0":
         pool1_miners = pool1_data["pool"]["miners"]
         pool1_fee = pool1_data["config"]["fee"]
 
-        pool2_hashrate = pool2_data["pool"]["hashrate"] / 1000
-        pool2_miners = pool2_data["pool"]["miners"]
-        pool2_fee = pool2_data["config"]["fee"]
+        #pool2_hashrate = pool2_data["pool"]["hashrate"] / 1000
+        #pool2_miners = pool2_data["pool"]["miners"]
+        #pool2_fee = pool2_data["config"]["fee"]
 
         pool3_hashrate = pool3_data["pool"]["hashrate"] / 1000
         pool3_miners = pool3_data["pool"]["miners"]
         pool3_fee = pool3_data["config"]["fee"]
 
 
-        total_pool_hashrate = round(pool1_hashrate + pool2_hashrate + pool3_hashrate)
-        total_pool_miners = pool1_miners + pool2_miners + pool3_miners
+        total_pool_hashrate = round(pool1_hashrate + pool3_hashrate)
+        total_pool_miners = pool1_miners + pool3_miners
         avg_hash_per_miner = round(total_pool_hashrate / total_pool_miners)
         
         know_hashrate_percentage = round((100 / network_hashrate) * total_pool_hashrate)
@@ -343,11 +343,11 @@ while menu == "0":
         print("Fee: " + str(pool1_fee) + "%")
         print("_______________________")
         print("")
-        print("----" + pool2_name + "----")
-        print("Hash rate: " + str(pool2_hashrate) + " kh/s")
-        print("Miners: " + str(pool2_miners))
-        print("Fee: " + str(pool2_fee) + "%")
-        print("_______________________")
+       # print("----" + pool2_name + "----")
+       # print("Hash rate: " + str(pool2_hashrate) + " kh/s")
+       # print("Miners: " + str(pool2_miners))
+      #  print("Fee: " + str(pool2_fee) + "%")
+       # print("_______________________")
         print("")
         print("----" + pool3_name + "----")
         print("Hash rate: " + str(pool3_hashrate) + " kh/s")
