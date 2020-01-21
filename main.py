@@ -2,9 +2,12 @@ import time
 import json
 import sys
 import urllib.request
+import os
 from os import system, name  
 from datetime import datetime
 from turtlecoin import TurtleCoind
+
+menu = "0"
 
 #Clear console function
 def clear(): 
@@ -49,6 +52,7 @@ if user_node_selection == "y":
         try:
             print("Make sure the daemon you are requesting has the --enable-blockexplorer argument enabled.")
             rpc_host = input("Daemon IP: ")
+            response = os.system("ping " + rpc_host)
             break
         except ConnectionError:
             print("Connection error to node. Using default.") #does this even work??
@@ -92,15 +96,12 @@ while menu == "0":
 |(2). View live current net statistics  |
 |(3). View transaction data             |
 |(4). View Pool Information             |
-|(5). Links                             |
-|(6). Exit                              |
+|(5). Node Checker                      |
+|(6). Links                             |
+|(7). Exit                              |
 |_______________________________________|""")
 
     menu = input("Enter selection: ")
-
-
-
-
 
     #blockexplorer
     while menu == "1":
@@ -145,8 +146,6 @@ while menu == "0":
              block_hashrate = round(user_block_hash_data_loads["result"]["block_header"]["difficulty"] / 60 / 1000, 2)
              block_timestamp = user_block_hash_data_loads["result"]["block_header"]["timestamp"]
              
-
-            
         # convert timestamp to UTC
         timestamp = block_timestamp
         block_date = datetime.fromtimestamp(timestamp)
@@ -176,10 +175,6 @@ while menu == "0":
         menu = input("Press 1 to check another block, 0 to go back to the menu: ")
 
         clear()
-
-
-
-
 
     #current network information
     while menu == "2":
@@ -255,9 +250,6 @@ while menu == "0":
 
             clear()
 
-
-
-
     while menu == "3":
 
         #user input
@@ -289,10 +281,6 @@ while menu == "0":
 
          menu = input("Press 3 to check another TXN, 0 to go back to the menu: ")
          clear()
-
-
-
-
 
     while menu == "4":
 
@@ -378,11 +366,87 @@ while menu == "0":
 
         clear()
 
-
-
-
-
     while menu == "5":
+        node_ip = input("Enter node IP: ")
+
+        daemon = TurtleCoind(node_ip, rpc_port)
+        matching_data = 0
+
+        try:
+            node_data = daemon.get_last_block_header()
+            connection_failed = False
+        except:
+            print("Connection Failed. Make sure that the " + coin_ticker + " daemon is running on the specified IP.")
+            connection_failed = True
+
+        if connection_failed == False:
+
+            node_data_dump = json.dumps(node_data)
+            node_data_loads = json.loads(node_data_dump)
+
+            last_block_height = node_data_loads["result"]["block_header"]["height"]
+            last_block_size = node_data_loads["result"]["block_header"]["block_size"]
+            last_block_hash = node_data_loads["result"]["block_header"]["hash"]
+            last_block_reward = node_data_loads["result"]["block_header"]["reward"]
+
+            print("Connection with node " + node_ip + "Established. Information received from node:")
+            print("")
+            print("Comparing data with an official node... Please wait...")
+
+            official_daemon = TurtleCoind(default_node_ip, rpc_port)
+            official_data = official_daemon.get_last_block_header()
+            official_data_dump = json.dumps(official_data)
+            official_data_loads = json.loads(official_data_dump)
+
+            official_last_block_height = official_data_loads["result"]["block_header"]["height"]
+            official_last_block_size = official_data_loads["result"]["block_header"]["block_size"]
+            official_last_block_hash = official_data_loads["result"]["block_header"]["hash"]
+            official_last_block_reward = official_data_loads["result"]["block_header"]["reward"]
+
+            if official_last_block_height == last_block_height:
+                print("Block height matches..")
+                matching_data = matching_data + 1
+            else:
+                print("Block Height does not match!")
+
+            if official_last_block_size == last_block_size:
+                print("Block size matches..")
+                matching_data = matching_data + 1
+            else:
+                print("Block Size does not match!")
+
+            if official_last_block_hash == last_block_hash:
+                print("Block hash matches..")
+                matching_data = matching_data + 1
+            else:
+                print("Block hash does not match!")
+            
+            if official_last_block_size == last_block_size:
+                print("Block size matches..")
+                matching_data = matching_data + 1
+            else:
+                print("Block Size does not match!")
+
+            if official_last_block_reward == last_block_reward:
+                print("Block reward matches..")
+                matching_data = matching_data + 1
+            else:
+                print("Block reward does not match!")
+
+            if matching_data == 5:
+                print("")
+                print("All data matches up with the official node!")
+
+            elif matching_data < 5:
+                print("")
+                print("Data does not match up with official node. This may be because the node " + node_ip + " is off-chain.")
+            
+            menu = str(input("Enter 0 to go back to main menu, or 5 to check another node: "))
+
+        else:      
+            menu = str(input("Error occurred, enter 0 to go back to main menu, or 5 to try again: "))
+
+    while menu == "6":
         print("-----BlockExplorer GitHub-----")
         print("https://github.com/pxckets/cli-blockexplorer")
         print("________________")
@@ -419,11 +483,8 @@ while menu == "0":
 
         menu = input("Enter 0 to go back to the main menu: ")
 
-
-
-
     # wow atleast recommend this to a friend.
-    while menu == "6":
+    while menu == "7":
         print("")
         print("Have a good day :)")
         print("Window will automatically close in 5 seconds...")

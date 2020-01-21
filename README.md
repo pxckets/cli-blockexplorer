@@ -1,9 +1,13 @@
 # CLI BlockExplorer for Oscillate.
 Does what it says. Allows you to view information for the block specified.
 
-# Current Version: 1.1.13
+# Current Version: 1.1.14
 
 # Change-Log
+
+1.1.14
+Added a node checker which allows for the user to eter a node ip, then the program uses data from the users node and compares it to and official node
+
 1.1.13
 Added auto-detection for network going passed swap height, 
 Minor formatting changes, 
